@@ -1,0 +1,11 @@
+.root {
+  padding: 8px 15px;
+  width: 400px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: rgba(0, 0, 0, 0.3);
+  }
+}

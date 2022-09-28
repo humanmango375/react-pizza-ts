@@ -1,0 +1,36 @@
+@import '/src/scss/variables';
+
+.pagination {
+  text-align: center;
+  li {
+    display: inline-flex;
+
+    &:not(:last-of-type) {
+      margin-right: 10px;
+    }
+
+    a {
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $orange;
+      border-radius: 50%;
+      height: 45px;
+      width: 45px;
+      color: $orange;
+      cursor: pointer;
+      line-height: 45px;
+      &:hover {
+        background-color: $orange;
+        color: white;
+      }
+    }
+  }
+  :global {
+    .selected {
+      a {
+        background-color: $orange;
+        color: #fff;
+      }
+    }
+  }
+}
