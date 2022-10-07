@@ -1,20 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSort } from '../app/slices/filterSlice';
 
-const Sort = ({ value, changeSort }) => {
-  const sortTitles = [
-    { name: 'rating', title: 'популярности' },
-    { name: 'price', title: 'цене' },
-    { name: 'name', title: 'алфавиту' },
-  ];
+export const sortTitles = [
+  { name: 'rating', title: 'популярности' },
+  { name: 'price', title: 'цене' },
+  { name: 'name', title: 'алфавиту' },
+];
+
+const Sort = () => {
+  const sort = useSelector((state) => state.filter.sort);
+  const dispatch = useDispatch();
+  const sortRef = useRef();
   const [showPopup, setShowPopup] = useState(false);
 
   const onSortSelect = (obj) => {
-    changeSort(obj);
+    dispatch(setSort(obj));
     setShowPopup(false);
   };
 
+  React.useEffect(() => {
+    const handleClickOutsideSort = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setShowPopup(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutsideSort);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutsideSort);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           style={{ transform: showPopup ? 'rotate(180deg)' : '' }}
@@ -29,7 +48,7 @@ const Sort = ({ value, changeSort }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setShowPopup(!showPopup)}>{value.title}</span>
+        <span onClick={() => setShowPopup(!showPopup)}>{sort.title}</span>
       </div>
       {showPopup && (
         <div className="sort__popup">
@@ -37,7 +56,7 @@ const Sort = ({ value, changeSort }) => {
             {sortTitles.map((obj, index) => (
               <li
                 onClick={() => onSortSelect(obj)}
-                className={value.name === obj.name ? 'active' : ''}
+                className={sort.name === obj.name ? 'active' : ''}
                 key={index}>
                 {obj.title}
               </li>
