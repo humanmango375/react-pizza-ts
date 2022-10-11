@@ -2,25 +2,24 @@ import React from 'react';
 import Categories from '../components/Categories';
 import Items from '../components/Items';
 import Sort from '../components/Sort';
-import axios from 'axios';
-import { useEffect, useContext, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategoryId, setCurrentPage, setFilters } from '../app/slices/filterSlice';
+import { filterSelector, searchValueSelector, setCategoryId, setCurrentPage, setFilters } from '../app/slices/filterSlice';
 import { useNavigate } from 'react-router-dom';
 import { sortTitles } from '../components/Sort';
 import qs from 'qs';
+import { fetchPizzas, pizzasSelector } from '../app/slices/pizzasSlice';
 
 const Home = () => {
-  const [pizzas, setPizzas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-  const { searchValue } = useContext(SearchContext);
+  const { categoryId, sort, currentPage } = useSelector(filterSelector);
+  const searchValue = useSelector(searchValueSelector);
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { items: pizzas, status } = useSelector(pizzasSelector);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -32,21 +31,11 @@ const Home = () => {
   const filteredPizzas = pizzas.filter((item) =>
     item.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
-
-  const fetchPizzas = () => {
-    setIsLoading(true);
+  const getPizzas = async () => {
     const search = searchValue ? `&search=${searchValue}` : '';
-    axios
-      .get(
-        `https://62f4e313535c0c50e764a03d.mockapi.io/pizzas?page=${currentPage}&limit=4&${
-          categoryId !== 0 ? `category=${categoryId}` : ''
-        }${search}&sortBy=${sort.name}`,
-      )
-      .then((response) => {
-        setPizzas(response.data);
-        setIsLoading(false);
-        window.scrollTo(0, 0);
-      });
+
+    dispatch(fetchPizzas({ categoryId, sort, search, currentPage }));
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -65,7 +54,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
     isSearch.current = false;
   }, [categoryId, sort, searchValue, currentPage]);
@@ -90,7 +79,7 @@ const Home = () => {
           <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <Items pizzas={filteredPizzas} isLoading={isLoading} />
+        <Items pizzas={filteredPizzas} status={status} />
         <Pagination currentPage={currentPage} onChangePage={onChangePage} />
       </div>
     </div>
