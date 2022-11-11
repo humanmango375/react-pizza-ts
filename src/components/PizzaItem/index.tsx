@@ -1,33 +1,55 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCartItem, itemByIdSelector } from '../../app/slices/cartSlice';
+import { Link } from 'react-router-dom';
+import { addCartItem, ICartItem, itemByIdSelector } from '../../app/slices/cartSlice';
 
-const PizzaItem = ({ id, category, name, sizes, types, price, rating, imageUrl }) => {
+interface PizzaItemProps {
+  id: string;
+  category: number;
+  name: string;
+  sizes: number[];
+  types: number[];
+  price: number;
+  rating: number;
+  imageUrl: string;
+}
+
+const PizzaItem: React.FC<PizzaItemProps> = ({
+  id,
+  category,
+  name,
+  sizes,
+  types,
+  price,
+  rating,
+  imageUrl,
+}) => {
   // SIZES
   const allSizes = [26, 30, 40];
   const [selectedSize, setSelectedSize] = useState(sizes[0]);
-  const onSizeSelect = (size) => {
+  const onSizeSelect = (size: number) => {
     setSelectedSize(size);
   };
 
   // TYPES
   const allTypes = ['тонкое', 'традиционное'];
   const [selectedType, setSelectedType] = useState(types[0]);
-  const onTypeSelect = (type) => {
+  const onTypeSelect = (type: number) => {
     setSelectedType(type);
   };
 
   const dispatch = useDispatch();
-  const cartItem = useSelector(itemByIdSelector(id));
+  const cartItem = useSelector(itemByIdSelector(+id));
   const addedCount = cartItem ? cartItem.count : 0;
   const onAddItem = () => {
-    const newItem = {
+    const newItem: ICartItem = {
       id,
       name,
       price,
       imageUrl,
       type: allTypes[selectedType],
       size: selectedSize,
+      count: 0,
     };
 
     dispatch(addCartItem(newItem));
@@ -35,8 +57,10 @@ const PizzaItem = ({ id, category, name, sizes, types, price, rating, imageUrl }
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{name}</h4>
+      <Link to={`/pizza/${id}`}>
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+        <h4 className="pizza-block__title">{name}</h4>
+      </Link>
       <div className="pizza-block__selector">
         {/* List of types */}
         <ul>
@@ -82,7 +106,7 @@ const PizzaItem = ({ id, category, name, sizes, types, price, rating, imageUrl }
             />
           </svg>
           <span>Добавить</span>
-          {addedCount ? <i>{cartItem.count}</i> : ''}
+          {addedCount && cartItem ? <i>{cartItem.count}</i> : ''}
         </div>
       </div>
     </div>

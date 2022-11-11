@@ -1,11 +1,21 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addCartItem, decrementItem, removeCartItem } from '../../app/slices/cartSlice';
+import { addCartItem, decrementItem, ICartItem, removeCartItem } from '../../app/slices/cartSlice';
 
-const CartItem = ({ id, name, imageUrl, type, size, price, count }) => {
+interface CartItemsProps {
+  id: string;
+  name: string;
+  imageUrl: string;
+  type: number;
+  size: number;
+  price: number;
+  count: number;
+}
+
+const CartItem: React.FC<CartItemsProps> = ({ id, name, imageUrl, type, size, price, count }) => {
   const dispatch = useDispatch();
   const onIncrementCount = () => {
-    dispatch(addCartItem({ id }));
+    dispatch(addCartItem({ id } as ICartItem));
   };
 
   const onDecrementCount = () => {

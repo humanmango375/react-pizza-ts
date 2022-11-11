@@ -1,27 +1,34 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSort, sortSelector } from '../app/slices/filterSlice';
+import { setSort, SortItemType, SortNames, sortSelector } from '../app/slices/filterSlice';
 
-export const sortTitles = [
-  { name: 'rating', title: 'популярности' },
-  { name: 'price', title: 'цене' },
-  { name: 'name', title: 'алфавиту' },
+type PopupClick = React.MouseEvent<HTMLBodyElement> & {
+  path: Node[]
+}
+
+export const sortTitles: SortItemType[] = [
+  { name: SortNames.RATING, title: 'популярности' },
+  { name: SortNames.PRICE, title: 'цене' },
+  { name: SortNames.NAME, title: 'алфавиту' },
 ];
 
 const Sort = () => {
   const sort = useSelector(sortSelector);
   const dispatch = useDispatch();
-  const sortRef = useRef();
+  const sortRef = useRef(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const onSortSelect = (obj) => {
+  const onSortSelect = (obj: SortItemType) => {
     dispatch(setSort(obj));
     setShowPopup(false);
   };
 
   React.useEffect(() => {
-    const handleClickOutsideSort = (e) => {
-      if (!e.path.includes(sortRef.current)) {
+    const handleClickOutsideSort = (e: MouseEvent) => {
+      const _event = e as MouseEvent & {
+        path: Node[];
+      };
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setShowPopup(false);
       }
     };

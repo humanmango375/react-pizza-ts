@@ -1,9 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PizzaItem from './PizzaItem';
 import PizzaSkeleton from './PizzaItem/PizzaItemSkeleton';
 
-const Items = ({ pizzas, status }) => {
-  const pizzasList = pizzas.map((pizza) => <PizzaItem key={pizza.id} {...pizza} />);
+interface ItemsProps {
+  pizzas: any;
+  status: string;
+}
+
+const Items: React.FC<ItemsProps> = ({ pizzas, status }) => {
+  const pizzasList = pizzas.map((pizza: any) => <PizzaItem key={pizza.id} {...pizza} />);
   const skeletons = [...new Array(8)].map((_, i) => <PizzaSkeleton key={i} />);
 
   return (
