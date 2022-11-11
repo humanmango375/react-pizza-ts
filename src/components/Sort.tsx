@@ -12,7 +12,7 @@ export const sortTitles: SortItemType[] = [
   { name: SortNames.NAME, title: 'алфавиту' },
 ];
 
-const Sort = () => {
+const Sort = React.memo(() => {
   const sort = useSelector(sortSelector);
   const dispatch = useDispatch();
   const sortRef = useRef(null);
@@ -73,6 +73,6 @@ const Sort = () => {
       )}
     </div>
   );
-};
+})
 
 export default Sort;

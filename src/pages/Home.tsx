@@ -15,7 +15,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { sortTitles } from '../components/Sort';
 import qs from 'qs';
-import { fetchPizzas, pizzasSelector, SearchPizzaParams } from '../app/slices/pizzasSlice';
+import { fetchPizzas, pizzasSelector } from '../app/slices/pizzasSlice';
 import { useAppDispatch } from '../app/store';
 
 const Home: React.FC = () => {
@@ -28,13 +28,14 @@ const Home: React.FC = () => {
 
   const { items: pizzas, status } = useSelector(pizzasSelector);
 
-  const onChangeCategory = (idx: number) => {
+  const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
-  };
+  }, []);
 
-  const onChangePage = (page: number) => {
+  const onChangePage = React.useCallback((page: number) => {
     dispatch(setCurrentPage(page));
-  };
+  }, []);
+
   const filteredPizzas = pizzas.filter((item: any) =>
     item.name.toLowerCase().includes(searchValue.toLowerCase()),
   );
@@ -47,7 +48,7 @@ const Home: React.FC = () => {
         sortBy,
         search,
         currentPage: String(currentPage),
-      })!,
+      }),
     );
     window.scrollTo(0, 0);
   };
