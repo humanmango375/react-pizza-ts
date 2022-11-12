@@ -1,22 +1,17 @@
-import React from 'react';
-import Categories from '../components/Categories';
-import Items from '../components/Items';
-import Sort from '../components/Sort';
-import { useEffect, useRef } from 'react';
-import Pagination from '../components/Pagination';
-import { useSelector } from 'react-redux';
-import {
-  filterSelector,
-  searchValueSelector,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from '../app/slices/filterSlice';
-import { useNavigate } from 'react-router-dom';
-import { sortTitles } from '../components/Sort';
-import qs from 'qs';
-import { fetchPizzas, pizzasSelector } from '../app/slices/pizzasSlice';
-import { useAppDispatch } from '../app/store';
+import qs from "qs";
+import React, { useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { filterSelector, searchValueSelector } from "../app/slices/filter/selectors";
+import { setCategoryId, setCurrentPage, setFilters } from "../app/slices/filter/slice";
+import { pizzasSelector } from "../app/slices/pizza/selectors";
+import { fetchPizzas } from "../app/slices/pizza/slice";
+import { useAppDispatch } from "../app/store";
+import Categories from "../components/Categories";
+import Items from "../components/Items";
+import Pagination from "../components/Pagination";
+import Sort, { sortTitles } from "../components/Sort";
+
 
 const Home: React.FC = () => {
   const { categoryId, sort, currentPage } = useSelector(filterSelector);

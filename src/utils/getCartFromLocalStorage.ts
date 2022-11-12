@@ -1,4 +1,4 @@
-import { CartSliceState } from '../app/slices/cartSlice';
+import { CartSliceState } from '../app/slices/cart/types';
 import calcTotalPrice from './calcTotalPrice';
 
 const getCartFromLocalStorage = (): CartSliceState => {

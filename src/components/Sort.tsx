@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSort, SortItemType, SortNames, sortSelector } from '../app/slices/filterSlice';
+import React, { useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { sortSelector } from "../app/slices/filter/selectors";
+import { setSort } from "../app/slices/filter/slice";
+import { SortItemType, SortNames } from "../app/slices/filter/types";
 
 type PopupClick = React.MouseEvent<HTMLBodyElement> & {
   path: Node[]

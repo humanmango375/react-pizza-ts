@@ -1,9 +1,9 @@
-import React from 'react';
-import s from './Search.module.scss';
 import debounce from 'lodash.debounce';
 import { useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchValueSelector, setSearchValue } from '../../app/slices/filterSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { searchValueSelector } from '../../app/slices/filter/selectors';
+import { setSearchValue } from '../../app/slices/filter/slice';
+import s from './Search.module.scss';
 
 const Search = () => {
   const searchValue = useSelector(searchValueSelector);

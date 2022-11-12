@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { addCartItem, ICartItem, itemByIdSelector } from '../../app/slices/cartSlice';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { itemByIdSelector } from "../../app/slices/cart/selectors";
+import { addCartItem } from "../../app/slices/cart/slice";
+import { ICartItem } from "../../app/slices/cart/types";
 
 interface PizzaItemProps {
   id: string;

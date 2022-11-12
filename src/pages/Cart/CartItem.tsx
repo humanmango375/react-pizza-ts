@@ -1,6 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { addCartItem, decrementItem, ICartItem, removeCartItem } from '../../app/slices/cartSlice';
+import { useDispatch } from "react-redux";
+import { addCartItem, removeCartItem, decrementItem } from "../../app/slices/cart/slice";
+import { ICartItem } from "../../app/slices/cart/types";
 
 interface CartItemsProps {
   id: string;

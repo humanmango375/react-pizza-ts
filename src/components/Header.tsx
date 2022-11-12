@@ -1,9 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import { cartSelector } from '../app/slices/cartSlice';
+import React from "react";
+import { useSelector } from "react-redux";
+import { useLocation, Link } from "react-router-dom";
+import { cartSelector } from "../app/slices/cart/selectors";
 import Logo from '../assets/img/pizza-logo.svg';
-import Search from './Search';
+import Search from "./Search";
 
 const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(cartSelector);
