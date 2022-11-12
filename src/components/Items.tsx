@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PizzaItem from './PizzaItem';
 import PizzaSkeleton from './PizzaItem/PizzaItemSkeleton';
 
